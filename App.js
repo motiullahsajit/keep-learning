@@ -10,16 +10,15 @@ import React from 'react';
 import {
   SafeAreaView,
   StyleSheet,
-  
 } from 'react-native';
-import Login from './src/components/LoginPage/Login';
+import HomeDataLoad from './src/components/HomePage/HomeDataLoad';
+
 
 const App = () => {
- 
 
   return (
     <SafeAreaView style={styles.container}>
-      <Login />
+      <HomeDataLoad />
     </SafeAreaView>
   );
 };
