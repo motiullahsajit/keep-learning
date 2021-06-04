@@ -1,84 +1,82 @@
-import React from 'react'
-import { StyleSheet, Text, View, Image } from 'react-native'
+import React from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Button,
+  SafeAreaView,
+} from 'react-native';
+import {useDispatch} from 'react-redux';
+import {setEnrolledCourse} from '../../Redux/Actions/Actions';
 
-export default function HomeDataShow(props) {
-    const { image, title, author, rating, person, price, enroll } = props.course;
-    return (
-        <View style={styles.boxContent}>
-            <Image style={styles.img} source={image}></Image>
-            <Text style={styles.title}>{title}</Text>
-            <Text style={styles.author}>{author}</Text>
-            {/* <View style={styles.enrollRatingContent}>
-                <Text style={styles.enroll}>Enroll {enroll}</Text>
-                <Text style={styles.rating}>Rating {rating}</Text>
-            </View> */}
+const HomeDataShow = ({course, navigation}) => {
+  const {id, image, title, author, rating, person, price, enroll} = course;
+  const dispatch = useDispatch();
+
+  const handleEnrollBtn = () => {
+    dispatch(setEnrolledCourse(course));
+    navigation.navigate('Enrolled');
+  };
+
+  return (
+    <SafeAreaView style={styles.boxContent}>
+      <View>
+        <Image style={styles.img} source={{uri: image}} />
+      </View>
+      <View>
+        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.author}>{author}</Text>
+        <View style={{flexDirection: 'row'}}>
+          <View>
             <Text style={styles.price}>$ {price}</Text>
-            <Text style={styles.addToCart}>Add To Cart</Text>
-            <Text style={styles.buyNow}>Buy Now</Text>
+          </View>
+          <View style={styles.enrollRatingContent}>
+            <Text style={styles.enroll}>Enrolled: {enroll}</Text>
+            <Text style={styles.rating}>
+              Rating: {rating} ({person})
+            </Text>
+          </View>
         </View>
-    )
-}
+
+        <Button onPress={handleEnrollBtn} title="Enroll now" color="#841584" />
+      </View>
+    </SafeAreaView>
+  );
+};
 
 const styles = StyleSheet.create({
-    boxContent: {
-        width: 350,
-        height: 480,
-        // backgroundColor: 'silver',
-        margin: 16,
-        boxSizing: 'border-box',
-        border: '1px solid silver',
-        alignItems: 'center',
-        borderRadius: 5,
-    },
-    img: {
-        width: 330,
-        height: 200,
-        backgroundColor: 'white',
-        margin: 5,
-        borderRadius: 5,
-        border: '1px solid silver',
-        marginTop: 10,
-    },
-    title: {
-        fontSize: 23,
-        marginTop: 8,
+  boxContent: {
+    flex: 1,
+    borderWidth: 2,
+    padding: 10,
+    margin: 10,
+    flexWrap: 'wrap',
+    borderRadius: 10,
+  },
+  img: {
+    width: 250,
+    height: 100,
+    backgroundColor: 'white',
+    margin: 5,
+    borderRadius: 5,
+    marginTop: 10,
+  },
+  title: {
+    fontSize: 15,
+    marginTop: 8,
+  },
+  author: {
+    // marginTop: 8,
+  },
+  price: {
+    marginTop: 8,
+    fontSize: 20,
+  },
+  enrollRatingContent: {
+    marginLeft: 30,
+    padding: 5,
+  },
+});
 
-    },
-    author: {
-        marginTop: 8,
-    },
-    price: {
-        marginTop: 8,
-        fontSize: 30,
-        fontWeight: 500,
-    },
-    // enrollRatingContent:{
-    //     flex: 1,
-    // },
-    addToCart: {
-        border: '1px solid silver',
-        width: 280,
-        height: 50,
-        textAlign: 'center',
-        backgroundColor: '#E61B1B',
-        color: 'white',
-        fontSize: 24,
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontWeight: 500,
-        paddingTop: 6,
-        marginTop: 8,
-    },
-    buyNow: {
-        border: '1px solid silver',
-        width: 280,
-        height: 50,
-        textAlign: 'center',
-        fontSize: 24,
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontWeight: 500,
-        paddingTop: 6,
-        marginTop: 8,
-    }
-})
+export default HomeDataShow;
